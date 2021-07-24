@@ -5,7 +5,7 @@
 # wget-puppeteer-anyproxy
 
 This module is an Open Source Software maintained by one developer in free time. If you want to thank the author of this module you can use 
-[Patreon](https://www.patreon.com/Kapa2411).
+[Patreon](https://www.patreon.com/Kapa2411) or [buymeacoffee](https://www.buymeacoffee.com/Kapa2411)
 
 
 
