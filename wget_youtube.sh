@@ -1,8 +1,13 @@
 
 # git bash: ./wget_youtube.sh
 
-  # -e http_proxy=127.0.0.1:8001 \
-  # -e https_proxy=127.0.0.1:8001 \
+  # proxy config
+    # -e http_proxy=127.0.0.1:8001 \
+    # -e https_proxy=127.0.0.1:8001 \
+
+  # common recursive config
+    # --mirror --no-parent 
+    # --reject-regex "logout|language"
 
 wget -p -k --html-extension \
   --load-cookies cookies.txt \
