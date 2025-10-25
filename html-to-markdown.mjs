@@ -23,6 +23,28 @@ function cleanCssAndJs(htmlContent) {
   return cleaned;
 }
 
+/**
+ * Rewrite HTML hrefs from .html to .md for relative links (no scheme, //, mailto, tel, javascript, or fragment-only)
+ */
+function rewriteHtmlHrefs(htmlContent) {
+  return htmlContent.replace(/(href\s*=\s*["'])([^"']+)(["'])/gi, (match, prefix, url, suffix) => {
+    if (/^(?:[a-z]+:|\/\/|#)/i.test(url)) return match;
+    const rewritten = url.replace(/\.html(\b|(?=[?#]))/i, '.md$1');
+    return prefix + rewritten + suffix;
+  });
+}
+
+/**
+ * Post-process Markdown to rewrite .html links to .md for relative links
+ */
+function rewriteMarkdownLinks(markdown) {
+  return markdown.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
+    if (/^(?:[a-z]+:\/\/|mailto:|tel:|javascript:|#)/i.test(url)) return match;
+    const rewritten = url.replace(/\.html(\b|(?=[?#]))/i, '.md$1');
+    return `[${text}](${rewritten})`;
+  });
+}
+
 // Configure turndown service with options
 const turndownService = new TurndownService({
   headingStyle: 'atx',
@@ -43,7 +65,10 @@ const turndownService = new TurndownService({
 function convertHtmlToMarkdown(htmlContent) {
   try {
     const cleaned = cleanCssAndJs(htmlContent);
-    return turndownService.turndown(cleaned);
+    const htmlWithMdHrefs = rewriteHtmlHrefs(cleaned);
+    const markdown = turndownService.turndown(htmlWithMdHrefs);
+    const finalMarkdown = rewriteMarkdownLinks(markdown);
+    return finalMarkdown;
   } catch (error) {
     console.error('Error converting HTML to Markdown:', error);
     return '';
