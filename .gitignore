@@ -125,7 +125,7 @@ dist
 
 # Stores VSCode versions used for testing VSCode extensions
 .vscode-test
-
+markdown-output/
 output/
 www.youtube.com/
 # yarn v3
