@@ -6,6 +6,19 @@ import TurndownService from 'turndown';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+/**
+ * Remove CSS from HTML content
+ * @param {string} htmlContent - The HTML content to clean
+ * @returns {string} - The cleaned HTML content
+ */
+function cleanCss(htmlContent) {
+  // Remove <style> blocks
+  let cleaned = htmlContent.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+  // Remove style attributes
+  cleaned = cleaned.replace(/\s+style\s*=\s*["'][^"']*["']/gi, '');
+  return cleaned;
+}
+
 // Configure turndown service with options
 const turndownService = new TurndownService({
   headingStyle: 'atx',
@@ -25,7 +38,8 @@ const turndownService = new TurndownService({
  */
 function convertHtmlToMarkdown(htmlContent) {
   try {
-    return turndownService.turndown(htmlContent);
+    const cleaned = cleanCss(htmlContent);
+    return turndownService.turndown(cleaned);
   } catch (error) {
     console.error('Error converting HTML to Markdown:', error);
     return '';

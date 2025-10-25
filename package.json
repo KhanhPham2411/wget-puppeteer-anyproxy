@@ -15,7 +15,7 @@
   "scripts": {
     "start": "npx anyproxy --rule ./puppeteer_anyproxy_rule.mjs --intercept",
     "clean": "npx rimraf output",
-    "html-to-md": "node html-to-markdown.mjs"
+    "markdown": "npx rimraf markdown-output && node html-to-markdown.mjs ./output ./markdown-output"
   },
   "author": "",
   "license": "ISC"
