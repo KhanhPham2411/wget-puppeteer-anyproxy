@@ -13,6 +13,7 @@
   },
   "scripts": {
     "build": "npx tsc",
+    "start": "npx anyproxy --rule ./bin/puppeteer_anyproxy_rule.js --intercept",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
