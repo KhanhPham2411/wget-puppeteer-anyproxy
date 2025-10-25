@@ -12,9 +12,8 @@
     "@types/node": "^20.0.0"
   },
   "scripts": {
-    "build": "npx tsc",
     "start": "npx anyproxy --rule ./puppeteer_anyproxy_rule.mjs --intercept",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "npx rimraf output"
   },
   "author": "",
   "license": "ISC"
