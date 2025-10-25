@@ -7,15 +7,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 /**
- * Remove CSS from HTML content
+ * Remove CSS and JavaScript from HTML content
  * @param {string} htmlContent - The HTML content to clean
  * @returns {string} - The cleaned HTML content
  */
-function cleanCss(htmlContent) {
+function cleanCssAndJs(htmlContent) {
   // Remove <style> blocks
   let cleaned = htmlContent.replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '');
+  // Remove <script> blocks
+  cleaned = cleaned.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
   // Remove style attributes
   cleaned = cleaned.replace(/\s+style\s*=\s*["'][^"']*["']/gi, '');
+  // Remove onclick and other event attributes
+  cleaned = cleaned.replace(/\s+on\w+\s*=\s*["'][^"']*["']/gi, '');
   return cleaned;
 }
 
@@ -38,7 +42,7 @@ const turndownService = new TurndownService({
  */
 function convertHtmlToMarkdown(htmlContent) {
   try {
-    const cleaned = cleanCss(htmlContent);
+    const cleaned = cleanCssAndJs(htmlContent);
     return turndownService.turndown(cleaned);
   } catch (error) {
     console.error('Error converting HTML to Markdown:', error);
